@@ -1,3 +1,11 @@
+/*
+* Autor: Eliel das Virgens
+* Data: 03-10-2018
+* Função: Service abstrado para funções em comum como:
+* CRUD FUNCTIONS: inserir, alterar, buscar todos, buscar um e remover.
+* AUTH FUNCTIONS: notAuthorizared, isAuthorized, isSameUser.
+*/
+
 import success from './common/success';
 import error from './common/error';
 import jwt from 'jwt-simple';
