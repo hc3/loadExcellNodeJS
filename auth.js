@@ -1,5 +1,4 @@
 import AccountService from './src/modules/account/AccountService';
-import Bcrypt from 'bcrypt';
 
 var plugins = [
     {

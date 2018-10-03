@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/babel-node --presets es2015 index.js",
+    "start-dev": "nodemon --exec babel-node index.js",
+    "testOn": "mocha --timeout 1000000 --opts src/modules/tdd/mocha.opts src/modules/tdd/AllTest.js"
   },
   "author": "",
   "license": "ISC",

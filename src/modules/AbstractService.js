@@ -1,5 +1,5 @@
-import success from './actions/success';
-import error from './actions/error';
+import success from './common/success';
+import error from './common/error';
 import jwt from 'jwt-simple';
 
 class AbstractService {

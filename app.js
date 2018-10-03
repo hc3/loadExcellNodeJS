@@ -12,9 +12,6 @@ const controllers = [
     require('./auth'),
     require('./src/modules/account/AccountController'),
     require('./src/modules/auth/AuthController'),
-    require('./src/modules/driver/DriverController'),
-    require('./src/modules/vehicle/VehicleController'),
-    require('./src/modules/product/ProductController')
 ]
 
 server.register(controllers , (err) => {
