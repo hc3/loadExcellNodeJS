@@ -29,7 +29,7 @@ class AccountService extends AbstractService {
 
     };
 
-    findByDecodedToken(id, success, error) { return this.accountDAO.listById(id, success, error); };
+    //findByDecodedToken(id, success, error) { return this.accountDAO.listById(id, success, error); };
 
 }
 

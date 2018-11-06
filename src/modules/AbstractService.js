@@ -16,31 +16,20 @@ class AbstractService {
         this.DAO = DAO;
     };
 
-    listAll(reply) {
-        return this.DAO.listAll(success(reply), error(reply));
-    };
+    listAll(reply) { return this.DAO.listAll(success(reply), error(reply)); };
 
-    findOne(request, reply) {
+    findOne(request, reply) { 
         const id = request.params.id;
-
         return this.DAO.listById(id, success(reply), error(reply));
     }
 
-    listById(id, reply) {
-        return this.DAO.listById(id, success(reply), error(reply));
-    };
+    listById(id, reply) { return this.DAO.listById(id, success(reply), error(reply)); };
 
-    create(data, reply) {
-        return this.DAO.create(data.payload, success(reply), error(reply));
-    };
+    create(data, reply) { return this.DAO.create(data.payload, success(reply), error(reply)); };
 
-    remove(id, success, error) {
-        return this.DAO.remove(id, success, error);
-    };
+    remove(id, success, error) { return this.DAO.remove(id, success, error); };
 
-    update(data, reply) {
-        return this.DAO.update(data.payload, success(reply), error(reply));
-    };
+    update(data, reply) { return this.DAO.update(data.payload, success(reply), error(reply)); };
 
     notAuthorizared(res) {
 

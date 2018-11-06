@@ -2,7 +2,7 @@ import jwt from 'jwt-simple';
 
 const successToken = (reply, data) => (user) => {
 
-  user.comparePassword(data.password, (err,isMath) => {
+  user.comparePassword(data.password, (isMath) => {
 
     if(isMath) {
 

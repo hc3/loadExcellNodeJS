@@ -3,9 +3,7 @@ import Account from './Account';
 
 exports.register = function(server, options ,next) {
 
-    const account = server.app.db.models.account
-
-    const service = new AccountService(account);
+    const service = new AccountService(server.app.db.models.account);
 
     server.route({
         method: 'GET',
@@ -28,22 +26,16 @@ exports.register = function(server, options ,next) {
         method: 'POST',
         path: '/create-account',
         config: {
-            auth:'token',
+            auth:false,
             handler: (request, reply) => {
-
-                if(service.isAuthorized(request, 'admin')) {
-                    service.create(request, reply);
-                } else {
-                    service.notAuthorized(reply);
-                }
-
+                service.create(request, reply);
             }
         }
     });
 
     server.route({
         method: 'PUT',
-        path: '/account/{id}',
+        path: '/accounts/{id}',
         config: {
             auth:'token',
              handler: (request, reply) => {
@@ -60,7 +52,7 @@ exports.register = function(server, options ,next) {
 
     server.route({
         method: 'GET',
-        path: '/account/{id}',
+        path: '/accounts/{id}',
         config: {
             auth:'token',
              handler: (request, reply) => {
@@ -76,7 +68,7 @@ exports.register = function(server, options ,next) {
     });
 
     server.route({
-        method:'GET',
+        method:'PUT',
         path:'/active-user/{id}',
         config: {
             auth:false,

@@ -10,13 +10,7 @@ class AccountDAO extends AbstractDAO {
 
     update(account, success, error) { AccountFactory.executeFindAndUpdate(this.account, account, success, error); }
 
-    activeUser(id, success, error) {
-        this.account.findOneAndUpdate({ _id:id},{isActive:true})
-            .then(success)
-            .catch(error)
-            .done()
-
-    }
+    activeUser(id, success, error) { this.account.findOneAndUpdate({ _id:id},{isActive:true}).then(success).catch(error).done() }
 
     create(account, success, error) { AccountFactory.executeCreate(this.account, account, success, error); };
 
@@ -29,13 +23,7 @@ class AccountDAO extends AbstractDAO {
             .catch(error);
     };
     
-    listAll(success, error) {
-        this.account.find()
-            .select("-password")
-            .exec()
-            .then(success)
-            .catch(error);
-    };
+    listAll(success, error) { this.account.find().select("-password").exec().then(success).catch(error); };
 
 }
 

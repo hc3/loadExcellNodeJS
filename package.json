@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/babel-node --presets es2015 index.js",
     "start-dev": "nodemon --exec babel-node index.js",
-    "testOn": "mocha --timeout 1000000 --opts src/modules/tdd/mocha.opts src/modules/tdd/AllTest.js"
+    "testOn": "mocha --timeout --inspect 1000000 --opts src/modules/tdd/mocha.opts src/modules/tdd/accountTest.js"
   },
   "author": "",
   "license": "ISC",

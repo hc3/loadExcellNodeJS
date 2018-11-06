@@ -1,4 +1,5 @@
 import AuthService from './AuthService';
+import Account from '../account/Account';
 
 exports.register = function(server, options, next) {
 
