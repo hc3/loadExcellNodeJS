@@ -1,10 +1,14 @@
 import server from './app';
 
-server.start((err) => {
-    if (err) {
-        throw err;
+async function start() {
+    try {
+        await server.start();
     }
-    console.log(`Server running at: ${server.info.uri}`);
-});
+    catch (err) {
+        console.log(err);
+    }
 
-export default server;
+    console.log('Server running at: ' + server.info.uri)
+}
+
+export default start;
