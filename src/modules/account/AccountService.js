@@ -21,11 +21,11 @@ class AccountService extends AbstractService {
 
     activeUser(data, success, error) { return this.accountDAO.activeUser(data.params.id, success, error); }
 
-    create(request, reply) {
+    create(request) {
 
         let account = AccountFactory.createNewAccount(request.payload);
-
-        return this.accountDAO.create(account, success(reply), error(reply));
+        
+        return this.accountDAO.create(account);
 
     };
 

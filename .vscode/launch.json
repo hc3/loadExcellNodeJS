@@ -2,10 +2,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--opts",
+                "src/modules/tdd/mocha.opts",
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/src/modules/tdd/accountTest"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
             "name": "Launch es6",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/index.js",
+            "program": "${workspaceRoot}/app.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",

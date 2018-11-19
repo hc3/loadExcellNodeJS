@@ -1,5 +1,3 @@
-import db from '../config/db';
-
 describe(" Rotina [ Account ] completa de testes", () => {
 
     const accountRequest = {
@@ -17,40 +15,67 @@ describe(" Rotina [ Account ] completa de testes", () => {
 
     let token = "";
 
-    before(done => {
-        db.dropCollection('account').then(() => {
-            console.log('Run before testes');
-        })
-        done();
-    })
-
     describe("Cadastra nova conta", () => {
-
-        it("Realiza cadastro", done => {
+        
+        it("Realiza cadastro com sucesso", done => {
 
             Server
-                .inject(accountRequest,(response) => {
-                    console.log(response);
+                .inject(accountRequest)
+                .then((response) => {
+
+                    //expect(response.result._id).to.be.a('string');
+                    //expect(response.result._id).to.have.lengthOf(24);
+
+                    expect(response.result.email).to.be.a('string');
+                    expect(response.result.isActive).to.be.a('boolean');
+                    expect(response.result.username).to.be.a('string');
+                    expect(response.result.role).to.be.a('string');
+        
                     done();
                 })
-        })
-    });
-
-    /*
-    describe("Realizando ações de login", () => {
-
-        it("Realizar login como administrador", done => {
-
-            Server
-                .post("/login")
-                .send(account)
-                .end((err, res) => {
-                    expect(res.body.token).to.be.a('string');
-                    token = res.body.token;
+                .catch((err) => {
                     done(err);
                 })
-        })
-        
-    })
-    */
+        });
+
+        /*
+        it("Faz login com sucesso", done => {
+
+            Server
+                .inject(loginSuccessRequest)
+                .then((response) => {
+
+                    done();
+                })
+                .catch((err) => {
+                    done(err);
+                })
+        });
+
+        it("Erro ao fazer login", done => {
+
+            Server
+                .inject(loginErrorRequest)
+                .then((response) => {
+
+                    done();
+                })
+                .catch((err) => {
+                    done(err);
+                })
+
+        });
+*/
+
+        after(async () => {
+            Server.app.db.dropDatabase().then(() => {
+                console.log('Removendo todos os dados do banco antes dos testes...');
+                process.exit(1);
+            });
+            
+        });
+
+
+    });
+
 })

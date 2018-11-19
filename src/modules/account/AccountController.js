@@ -1,5 +1,4 @@
-import AccountService from './AccountService';
-//import Account from './Account';
+import AccountService from './AccountService';import Account from './Account';
 
 exports.plugin = {
     name:'account',
@@ -28,10 +27,17 @@ exports.plugin = {
         server.route({
             method: 'POST',
             path: '/create-account',
-            config: {
+            options: {
                 auth:false,
-                handler: (request, reply) => {
-                    service.create(request, reply);
+                handler: async (request, reply) => {
+                    try {
+                        const response = await service.create(request);
+                        //console.log('response: ',response);
+                        return response;
+                    } catch(exception) {
+                        //throw Boom.notFound(exception);
+                        console.log('exception: ',exception);
+                    }
                 }
             }
         });
