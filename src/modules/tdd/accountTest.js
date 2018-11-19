@@ -38,7 +38,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
                 })
         });
 
-        /*
+        
         it("Faz login com sucesso", done => {
 
             Server
@@ -65,7 +65,6 @@ describe(" Rotina [ Account ] completa de testes", () => {
                 })
 
         });
-*/
 
         after(async () => {
             Server.app.db.dropDatabase().then(() => {
