@@ -10,16 +10,16 @@ exports.plugin = {
         server.route({
             method:'POST',
             path:'/login',
-            handler:(request, reply) => {
-                service.createToken(request,reply);
+            handler:(request, h) => {
+                service.createToken(request);
             }
         });
     
         server.route({
             method:'POST',
             path:'/logout',
-            handler:(request, reply) => {
-                service.deleteToken(request,reply);
+            handler:(request, h) => {
+                service.deleteToken(request);
             }
         });
     }

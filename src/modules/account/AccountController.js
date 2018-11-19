@@ -1,4 +1,5 @@
-import AccountService from './AccountService';import Account from './Account';
+import AccountService from './AccountService';
+import Account from './Account';
 
 exports.plugin = {
     name:'account',
@@ -29,10 +30,9 @@ exports.plugin = {
             path: '/create-account',
             options: {
                 auth:false,
-                handler: async (request, reply) => {
+                handler: async (request, h) => {
                     try {
                         const response = await service.create(request);
-                        //console.log('response: ',response);
                         return response;
                     } catch(exception) {
                         //throw Boom.notFound(exception);

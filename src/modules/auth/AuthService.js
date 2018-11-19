@@ -1,6 +1,6 @@
 import jwt from 'jwt-simple';
 
-const successToken = (reply, data) => (user) => {
+const successToken = (data) => (user) => {
 
   user.comparePassword(data.password, (isMath) => {
 
@@ -20,15 +20,15 @@ const successToken = (reply, data) => (user) => {
         isActive:user.isActive
       }
 
-      reply(resposta);
+      return resposta;
 
     } else{
-      reply("no tokens");
+      return "no tokens";
     }
   });
-}
+};
 
-const errorToken = (reply) => () => reply({err:"no tokens"});
+const errorToken = () => {err:"no tokens"};
 
 
 class AuthService {
@@ -37,7 +37,7 @@ class AuthService {
     this.model = Model;
   }
 
-  createToken(request, reply) {
+  createToken(request) {
 
     const email = request.payload.email;
     const password = request.payload.password;
@@ -49,8 +49,8 @@ class AuthService {
       };
 
       this.model.findOne(query)
-        .then(successToken(reply, request.payload))
-        .catch(errorToken(reply));
+        .then(successToken(request.payload))
+        .catch(errorToken());
 
     } else {
       return error("usuário ou senha incorretos");
