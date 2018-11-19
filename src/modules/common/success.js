@@ -1,1 +1,1 @@
-export default (reply) => (docs) => reply(docs)
+export default (docs) => docs

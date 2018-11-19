@@ -12,7 +12,7 @@ class AccountDAO extends AbstractDAO {
 
     activeUser(id, success, error) { this.account.findOneAndUpdate({ _id:id},{isActive:true}).then(success).catch(error).done() }
 
-    create(account, success, error) { AccountFactory.executeCreate(this.account, account, success, error); };
+    create(account) { return AccountFactory.executeCreate(this.account, account); };
 
     listById(id, success, error) {
         const query = { _id: id };

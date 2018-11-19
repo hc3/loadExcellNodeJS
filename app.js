@@ -2,22 +2,38 @@
 import Hapi from 'hapi';
 import db from './src/modules/config/db';
 
-const server = new Hapi.Server();
+const server = new Hapi.Server({ port:3000 });
 
-server.connection({ port: process.env.PORT || 3000 , routes:{ cors:true } });
 server.app.db = db;
 
 // ### --- START SERVER --- ### 
 const controllers = [
     require('./auth'),
-    require('./src/modules/account/AccountController'),
-    require('./src/modules/auth/AuthController'),
+    require('./src/modules/account/AccountController')
+    //require('./src/modules/auth/AuthController'),
+    //require('./src/modules/sell/SellController')
 ]
 
-server.register(controllers , (err) => {
+const init = async () => {
+    try {
+        await server.register(controllers);
+        await server.start();
+        console.log('Server running at: ' + server.info.uri );
+    } catch(err) {
+        console.log('err: ',err);
+        process.exit(1);
+    }
 
-    if(err) { throw err }
+}
 
-})
+const stop = async () => {
+    try {
+        await server.stop();
+    } catch(err) {
+        console.log('err: ',err);
+        process.exit(1);
+    }
+}
 
+init();
 export default server;

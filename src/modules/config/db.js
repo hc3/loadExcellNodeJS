@@ -8,6 +8,7 @@ if(URL.length > 35) {
 } else {
     mongoose.connect(URL)
 }
+
 mongoose.Promise = require('bluebird');
 
 const db = mongoose.connection;

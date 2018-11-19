@@ -1,20 +1,13 @@
 import AccountService from './src/modules/account/AccountService';
 
-var plugins = [
-    {
-        register: require('hapi-auth-jwt')
-    }
-];
-
-exports.register = (server, options ,next) => {
-    
-  server.register(plugins,(err) => {
-
-      if(err) throw err;
+exports.plugin  = {
+  name:'auth',
+  version:'0.0.1',
+  register: async function(server,options) {
 
       const service = new AccountService(server.app.db.models.account);
 
-      function validate(request, decodedToken, callback) {
+      const validate = async function(decoded, request) {
 
         let err = "";
         
@@ -31,20 +24,18 @@ exports.register = (server, options ,next) => {
         };
         
         service.listById(decodedToken.id,success,error);
-        
-      };
 
-      server.auth.strategy('token', 'jwt', {
+      }
+      
+      await server.register(require('hapi-auth-jwt2'));
+
+      server.auth.strategy('jwt', 'jwt', {
           key: process.env.SECRET,
-          validateFunc: validate,
-          verifyOptions: { algorithms: [ 'HS256' ] }  // only allow HS256 algorithm
+          validate: validate,
+          verifyOptions: { algorithms: [ 'HS256' ] }
       });
 
-      next();
-  })
-}
+      server.auth.default('jwt');
+  }
 
-exports.register.attributes = {
-  name: 'authentication',
-  version: '1.0.0'
 }

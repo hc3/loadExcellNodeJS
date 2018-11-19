@@ -1,6 +1,9 @@
-import supertest from 'supertest';
-import chai from 'chai';
-import app from '../../../index';
+'use strict';
 
-global.Server = supertest(app.listener);
+import chai from 'chai';
+import app from '../../../app';
+import db from '../config/db';
+
+global.database = db;
+global.Server = app;
 global.expect = chai.expect;

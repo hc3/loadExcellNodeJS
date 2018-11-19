@@ -1,3 +1,6 @@
+import success from '../common/success';
+import error from '../common/error';
+
 function createNewAccount(object) {
 
     return {
@@ -5,7 +8,8 @@ function createNewAccount(object) {
         fullName: object.fullName,
         email: object.email,
         role: object.role,
-        isActive: object.isActive
+        isActive: object.isActive,
+        password:object.password
     }
 
 
@@ -37,17 +41,19 @@ function updateAccount(object) {
 };
 
 function executeFindAndUpdate(InstanceModel, account, sucess, error) {
-    // adicionar uma promisse aqui
     InstanceModel.findOneAndUpdate({ _id: account._id }, account)
         .then(sucess)
         .catch(error)
 
 };
 
-function executeCreate(InstanceModel, account, success, error) {
-    InstanceModel.create(account)
-        .then(success)
-        .catch(error)
+async function executeCreate(InstanceModel, account) {
+    try {
+        const response = await InstanceModel.create(account)
+        return await success(response)
+    } catch(exception) {
+        return await error(exception)
+    }
 }
 
 const factory = {
