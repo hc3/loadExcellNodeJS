@@ -9,8 +9,8 @@ server.app.db = db;
 // ### --- START SERVER --- ### 
 const controllers = [
     require('./auth'),
-    require('./src/modules/account/AccountController')
-    //require('./src/modules/auth/AuthController'),
+    require('./src/modules/account/AccountController'),
+    require('./src/modules/auth/AuthController')
     //require('./src/modules/sell/SellController')
 ]
 

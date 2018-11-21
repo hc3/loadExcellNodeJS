@@ -35,8 +35,8 @@ exports.plugin = {
                         const response = await service.create(request);
                         return response;
                     } catch(exception) {
-                        //throw Boom.notFound(exception);
                         console.log('exception: ',exception);
+                        throw Boom.notFound(exception);
                     }
                 }
             }

@@ -1,31 +1,33 @@
 import jwt from 'jwt-simple';
 
-const successToken = (data) => (user) => {
+async function successToken(data, user) {
+  let resposta = {err:true,message:'no tokens'}
 
-  user.comparePassword(data.password, (isMath) => {
+  if(user) {
 
+    const isMath = await user.comparePassword(data.password);
+  
     if(isMath) {
-
+  
       const payload = {
         id:user._id,
         email:user.email,
         role:user.role,
         isActive:user.isActive
       };
-
-      let resposta = {
+  
+      resposta = {
         token:jwt.encode(payload,process.env.SECRET ),
         idUser:user._id,
         role:user.role,
         isActive:user.isActive
       }
+  
+    } 
 
-      return resposta;
+  } 
 
-    } else{
-      return "no tokens";
-    }
-  });
+  return resposta;
 };
 
 const errorToken = () => {err:"no tokens"};
@@ -37,7 +39,7 @@ class AuthService {
     this.model = Model;
   }
 
-  createToken(request) {
+  async createToken(request) {
 
     const email = request.payload.email;
     const password = request.payload.password;
@@ -48,13 +50,17 @@ class AuthService {
         "email":email
       };
 
-      this.model.findOne(query)
-        .then(successToken(request.payload))
+      return this.model.findOne(query)
+        .exec()
+        .then((user) =>  {
+          return successToken(request.payload, user);
+        })
         .catch(errorToken());
 
     } else {
       return error("usuário ou senha incorretos");
     }
+
   };
 
   getToken() {
