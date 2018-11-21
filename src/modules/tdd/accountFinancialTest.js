@@ -4,9 +4,9 @@ describe(" Rotina [ Account ] completa de testes", () => {
         method: 'POST',
         url: '/create-account',
         payload: {
-            fullName: 'Conta de Teste',
-            username: 'teste001',
-            email: 'teste001@mail.com',
+            fullName: 'Usuário do financeiro',
+            username: 'Financeiro',
+            email: 'financeiro@mail.com',
             password: '102030',
             role: 'financial',
             isActive: true
@@ -17,7 +17,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
         method: 'POST',
         url: '/login',
         payload: {
-            email: 'teste001@mail.com',
+            email: 'financeiro@mail.com',
             password: '102030'
         }
     }
@@ -35,7 +35,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
 
     describe("Cadastra nova conta", () => {
 
-        it("Realiza cadastro com sucesso", done => {
+        it("Realiza cadastro com sucesso [ FINANCEIRO ]", done => {
 
             Server
                 .inject(accountRequest)
@@ -54,7 +54,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
         });
 
 
-        it("Faz login com sucesso", done => {
+        it("Faz login com sucesso [ FINANCEIRO ]", done => {
 
             Server
                 .inject(loginSuccessRequest)
@@ -70,6 +70,8 @@ describe(" Rotina [ Account ] completa de testes", () => {
                     expect(response.result).to.be.have.property('isActive');
                     expect(response.result).to.be.have.property('role');
 
+                    token = response.result.token;
+
                     done();
                 })
                 .catch((err) => {
@@ -78,7 +80,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
         });
 
 
-        it("Erro ao fazer login", done => {
+        it("Erro ao fazer login [ FINANCEIRO ]", done => {
 
             Server
                 .inject(loginErrorRequest)
@@ -92,6 +94,27 @@ describe(" Rotina [ Account ] completa de testes", () => {
                 })
 
         });
+
+        it("Erro ao tentar buscar todos os usuários [ COM LOGIN DO FINANCEIRO ]", done => {
+
+            done();
+        });
+
+        it("Sucesso ao buscar os próprios dados [ COM LOGIN DO FINANCEIRO ]", done => {
+
+            done();
+        });
+
+        it("Erro ao tentar editar outro usuário [ COM LOGIN DO FINANCEIRO ]", done => {
+
+            done();
+        })
+
+        it("Sucesso ao alterar os próprios dados [ COM LOGIN DO FINANCEIRO ]", done => {
+
+            done();
+        })
+
 
         after(async () => {
             Server.app.db.dropDatabase().then(() => {
