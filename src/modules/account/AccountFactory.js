@@ -40,11 +40,13 @@ function updateAccount(object) {
 
 };
 
-function executeFindAndUpdate(InstanceModel, account, sucess, error) {
-    InstanceModel.findOneAndUpdate({ _id: account._id }, account)
-        .then(sucess)
-        .catch(error)
-
+async function executeFindAndUpdate(InstanceModel, account) {
+    try {
+        const response = await InstanceModel.findOneAndUpdate({ _id: account._id }, account);
+        return await success(response);
+    } catch(exception) {
+        return await error(exception)
+    }
 };
 
 async function executeCreate(InstanceModel, account) {

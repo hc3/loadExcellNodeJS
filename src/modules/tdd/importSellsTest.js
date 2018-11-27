@@ -1,3 +1,4 @@
+/*
 describe(" Rotina [ ImportSells ] completa de testes", () => {
 
     before( done => {
@@ -20,3 +21,4 @@ describe(" Rotina [ ImportSells ] completa de testes", () => {
 
 
 })
+*/

@@ -5,13 +5,30 @@ describe(" Rotina [ Account ] completa de testes", () => {
         url: '/create-account',
         payload: {
             fullName: 'Usuário do financeiro',
-            username: 'Financeiro',
+            username: 'financeiro',
             email: 'financeiro@mail.com',
             password: '102030',
             role: 'financial',
             isActive: true
         }
     };
+    
+    const updateAccountRequest = {
+        method: 'PUT',
+        url:'',
+        headers: {
+            Authorization:''
+        },
+        payload: {
+            _id:'',
+            fullName: 'Usuário do financeiro Updated',
+            username: 'Financeiro Updated',
+            email: 'financeiro-updated@mail.com',
+            password: '405060',
+            role: 'financial',
+            isActive: true
+        }
+    }
 
     const loginSuccessRequest = {
         method: 'POST',
@@ -31,8 +48,6 @@ describe(" Rotina [ Account ] completa de testes", () => {
         }
     }
 
-    let token = "";
-
     describe("Cadastra nova conta", () => {
 
         it("Realiza cadastro com sucesso [ FINANCEIRO ]", done => {
@@ -45,6 +60,12 @@ describe(" Rotina [ Account ] completa de testes", () => {
                     expect(response.result.isActive).to.be.a('boolean');
                     expect(response.result.username).to.be.a('string');
                     expect(response.result.role).to.be.a('string');
+                    updateAccountRequest.payload._id = response.result._id;
+
+                    expect(response.result.email).to.be.equal(accountRequest.payload.email);
+                    expect(response.result.isActive).to.be.equal(accountRequest.payload.isActive);
+                    expect(response.result.username).to.be.equal(accountRequest.payload.username);
+                    expect(response.result.role).to.be.equal(accountRequest.payload.role);
 
                     done();
                 })
@@ -70,7 +91,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
                     expect(response.result).to.be.have.property('isActive');
                     expect(response.result).to.be.have.property('role');
 
-                    token = response.result.token;
+                    updateAccountRequest.headers.Authorization = `Bearer ${response.result.token}`;
 
                     done();
                 })
@@ -94,6 +115,16 @@ describe(" Rotina [ Account ] completa de testes", () => {
                 })
 
         });
+
+        it("Sucesso ao tentar alterar usuário [COM LOGIN DO FINANCEIRO ]", done => {
+            updateAccountRequest.url = `/update-account/${updateAccountRequest.payload._id}`;
+            Server
+                .inject(updateAccountRequest)
+                .then((response) => {
+                    console.log('Result: ',response.result);
+                })
+            done();
+        })
 
         it("Erro ao tentar buscar todos os usuários [ COM LOGIN DO FINANCEIRO ]", done => {
 

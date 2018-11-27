@@ -44,17 +44,24 @@ exports.plugin = {
     
         server.route({
             method: 'PUT',
-            path: '/accounts/{id}',
+            path: '/update-account/{id}',
             config: {
-                auth:'jwt',
-                 handler: (request, reply) => {
-    
-                    if(service.isSameUser(request)) {
-                        service.update(request, reply);
-                    } else {
-                        service.notAuthorized(reply);
+                auth:false,
+                 handler: async (request, h) => {
+                    try {
+
+                        if(service.isSameUser(request)) {
+                            const response = await service.update(request);
+                            return response;
+                        } else {
+                            return service.notAuthorized();
+                        }
+
+                    } catch(exception) {
+                        console.log('exception: ',exception);
+                        throw Boom.notFound(exception);
                     }
-    
+                
                 }
             }
         });

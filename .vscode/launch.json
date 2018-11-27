@@ -14,7 +14,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/src/modules/tdd/accountTest"
+                "${workspaceFolder}/src/modules/tdd/**.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },

@@ -1,8 +1,7 @@
 import AccountDAO from './AccountDAO';
 import AbstractService from '../AbstractService';
 import AccountFactory from './AccountFactory';
-import success from '../common/success';
-import error from '../common/error';
+
 
 class AccountService extends AbstractService {
 
@@ -11,11 +10,11 @@ class AccountService extends AbstractService {
         this.accountDAO = new AccountDAO(Account);
     };
 
-    update(request, reply) {
+    update(request) {
 
         let account = AccountFactory.updateAccount(request.payload);
 
-        return this.accountDAO.update(account, success(reply), error(reply));
+        return this.accountDAO.update(account);
 
     }
 
