@@ -6,20 +6,20 @@ class AbstractDAO {
         this.Model = Model;
     };
 
-    listAll(success,error) {factory.executeFind(this.Model, success, error);};
+    listAll() { return factory.executeFind(this.Model);};
 
-    listById(id,success,error) {factory.executeFindOne(this.Model, id, success, error);};
+    listById(id) { return factory.executeFindOne(this.Model, id); };
 
-    create(data,success,error) {factory.executeCreate(this.Model,data,success,error);};
+    create(data) { return factory.executeCreate(this.Model,data);};
 
-    remove(id,success,error) {
+    remove(id) {
         const query = {_id:id};
         this.Model.remove(query)
             .then(success)
             .catch(error);
     };
 
-    update(data,success,error) {factory.executeFindAndUpdate(this.Model,data,success,error);};
+    update(data) { return factory.executeFindAndUpdate(this.Model,data);};
 }
 
 export default AbstractDAO;

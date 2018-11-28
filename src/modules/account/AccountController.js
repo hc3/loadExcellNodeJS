@@ -1,5 +1,6 @@
 import AccountService from './AccountService';
 import Account from './Account';
+import Boom from 'boom';
 
 exports.plugin = {
     name:'account',
@@ -35,7 +36,6 @@ exports.plugin = {
                         const response = await service.create(request);
                         return response;
                     } catch(exception) {
-                        console.log('exception: ',exception);
                         throw Boom.notFound(exception);
                     }
                 }
@@ -46,7 +46,7 @@ exports.plugin = {
             method: 'PUT',
             path: '/update-account/{id}',
             config: {
-                auth:false,
+                auth:'jwt',
                  handler: async (request, h) => {
                     try {
 
@@ -58,7 +58,6 @@ exports.plugin = {
                         }
 
                     } catch(exception) {
-                        console.log('exception: ',exception);
                         throw Boom.notFound(exception);
                     }
                 

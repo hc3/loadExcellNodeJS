@@ -42,7 +42,7 @@ function updateAccount(object) {
 
 async function executeFindAndUpdate(InstanceModel, account) {
     try {
-        const response = await InstanceModel.findOneAndUpdate({ _id: account._id }, account);
+        const response = await InstanceModel.findByIdAndUpdate({ _id: account._id }, account);
         return await success(response);
     } catch(exception) {
         return await error(exception)

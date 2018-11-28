@@ -23,7 +23,7 @@ class AbstractService {
         return this.DAO.listById(id, success(reply), error(reply));
     }
 
-    listById(id, reply) { return this.DAO.listById(id, success(reply), error(reply)); };
+    listById(id) { return this.DAO.listById(id); };
 
     create(data, reply) { return this.DAO.create(data.payload, success(reply), error(reply)); };
 

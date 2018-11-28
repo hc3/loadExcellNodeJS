@@ -7,24 +7,14 @@ exports.plugin  = {
 
       const service = new AccountService(server.app.db.models.account);
 
-      const validate = async function(decoded, request) {
-
-        let err = "";
+      const validate = async function(decoded, request, h) {
         
-        function success(user) {
-          if (!user) {
-              err = "usuário não encontrado";
-              return callback(err, false, user);
-          }
-          return callback(err, true, user);
-        };
-
-        function error(error) {
-          return error;
-        };
-        
-        service.listById(decodedToken.id,success,error);
-
+        const response = await service.listById(decoded.id);
+        if(!response._id) {
+          return h.response({message:'invalid token'}).code(401);
+        } else {
+          return {isValid:true,credentials:response};
+        }
       }
       
       await server.register(require('hapi-auth-jwt2'));

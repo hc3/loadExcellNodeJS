@@ -1,28 +1,42 @@
-function executeFindAndUpdate(InstanceModel, data, sucess, error) {
-    InstanceModel.findOneAndUpdate({ _id: data._id }, data)
-        .then(sucess)
-        .catch(error)
+import success from './common/success';
+import error from './common/error';
+
+async function executeFindAndUpdate(InstanceModel, data) {
+    try {
+        const response = await InstanceModel.findOneAndUpdate({ _id: data._id }, data);
+        return await success(response);
+    } catch(exception) {
+        return await error(exception)
+    }
+    
 
 };
 
-function executeCreate(InstanceModel, data, success, error) {
-    InstanceModel.create(data)
-        .then(success)
-        .catch(error)
+async function executeCreate(InstanceModel, data) {
+    try {
+        const response = await InstanceModel.create(data);
+        return await success(response);
+    } catch(exception) {
+        return await error(exception)
+    }
 }
 
-function executeFind(InstanceModel,success, error) {
-    InstanceModel.find()
-        .exec()
-        .then(success)
-        .catch(error);
+async function executeFind(InstanceModel) {
+    try {
+        const response = await InstanceModel.find();
+        return await success(response);
+    } catch(exception) {
+        return await error(exception)
+    }
 }
 
-function executeFindOne(InstanceModel, id, success, error) {
-    InstanceModel.findOne({_id:id})
-        .exec()
-        .then(success)
-        .catch(error);
+async function executeFindOne(InstanceModel, id) {
+    try {
+        const response = await InstanceModel.findOne({_id:id});
+        return await success(response);
+    } catch(exception) {
+        return await error(exception)
+    }
 }
 
 const factory = {
@@ -31,3 +45,5 @@ const factory = {
     executeFind,
     executeFindOne
 }
+
+export default factory;

@@ -52,9 +52,7 @@ class AuthService {
 
       return this.model.findOne(query)
         .exec()
-        .then((user) =>  {
-          return successToken(request.payload, user);
-        })
+        .then((user) => successToken(request.payload, user))
         .catch(errorToken());
 
     } else {

@@ -14,7 +14,7 @@ class AccountDAO extends AbstractDAO {
 
     create(account) { return AccountFactory.executeCreate(this.account, account); };
 
-    listById(id, success, error) {
+    listOne(id, success, error) {
         const query = { _id: id };
         const removedFields = { password: 0 }
         this.account.findOne(query, removedFields)
