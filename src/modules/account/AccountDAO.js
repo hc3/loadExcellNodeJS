@@ -8,7 +8,7 @@ class AccountDAO extends AbstractDAO {
         this.account = Account;
     };
 
-    update(account) { AccountFactory.executeFindAndUpdate(this.account, account); }
+    update(account) { return AccountFactory.executeFindAndUpdate(this.account, account); }
 
     activeUser(id, success, error) { this.account.findOneAndUpdate({ _id:id},{isActive:true}).then(success).catch(error).done() }
 

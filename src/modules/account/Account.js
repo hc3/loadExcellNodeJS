@@ -104,36 +104,23 @@ InstanceSchema
     })
 
   })
-  .pre('findOneAndUpdate', function (next) {
+  .pre('findOneAndUpdate', async function (next) {
 
-    var user = this;
+    const user = this;
 
     if (user.getUpdate().password) {
 
-      user.findOne({ "_id": user.getUpdate()._id }, function (err, doc) {
-
-        if (doc.password != user.getUpdate().password) {
-
-          bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-
-            if (err) return next(err);
-
-            bcrypt.hash(user.getUpdate().password, salt, function (err, hash) {
-
-              if (err) return next(err);
-
-              user.getUpdate().password = hash;
-
-              next();
-
-            })
-          })
-
+      try {
+        const findedUser = await user.findOne({_id:user.getUpdate()._id});
+        if(findedUser.password != user.getUpdate().password) {
+          user.getUpdate().password = await generateHash(user.getUpdate().password);
+          next();
         }
+      } catch (exception) {
+        console.log('exception: ',exception);
+        next(exception);
+      }
 
-        next();
-
-      })
     } else {
       next()
     }
@@ -144,5 +131,25 @@ InstanceSchema.methods.comparePassword = async function (candidatePassword) {
   const isEqual = await bcrypt.compareSync(candidatePassword,this.password);
   return isEqual;
 };
+
+async function generateHash(password) {
+
+  return new Promise((resolve, reject) => {
+
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+
+      if (err) reject(err);
+
+      bcrypt.hash(password, salt, function (err, hash) {
+
+        if (err) reject(err);
+
+        resolve(hash);
+
+      })
+    })
+
+  })
+}
 
 export default mongoose.model('account', InstanceSchema);
