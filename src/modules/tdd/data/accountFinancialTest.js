@@ -48,7 +48,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
         }
     }
 
-    describe("Cadastra nova conta", () => {
+    describe("Cadastra nova conta2", () => {
 
         it("Realiza cadastro com sucesso [ FINANCEIRO ]", done => {
 
@@ -74,7 +74,7 @@ describe(" Rotina [ Account ] completa de testes", () => {
                 })
         });
 
-
+/*
         it("Faz login com sucesso [ FINANCEIRO ]", done => {
 
             Server
@@ -145,13 +145,15 @@ describe(" Rotina [ Account ] completa de testes", () => {
 
             done();
         })
-
+*/
 
         after(async () => {
-            Server.app.db.dropDatabase().then(() => {
-                console.log('Removendo todos os dados do banco antes dos testes...');
-                process.exit(1);
-            });
+            console.log('Rodando o after');
+            Server.app.db.dropDatabase()
+                .then(() => {
+                    console.log('Removendo todos os dados do banco antes dos testes...');
+                    process.exit(1);
+                });
         });
 
 

@@ -12,7 +12,6 @@ function createNewAccount(object) {
         password:object.password
     }
 
-
 };
 
 function updateAccount(object) {
@@ -51,7 +50,7 @@ async function executeFindAndUpdate(InstanceModel, account) {
 
 async function executeCreate(InstanceModel, account) {
     try {
-        const response = await InstanceModel.create(account)
+        const response = await InstanceModel.save(account);
         return await success(response)
     } catch(exception) {
         return await error(exception)

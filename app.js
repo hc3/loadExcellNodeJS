@@ -35,5 +35,8 @@ const stop = async () => {
     }
 }
 
+server.app.stop = stop;
+
 init();
+
 export default server;

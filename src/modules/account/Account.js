@@ -27,7 +27,17 @@ const InstanceSchema = new Schema({
     set: toLower,
     get: toLower,
     require: true,
-    unique: true
+    unique: true,
+    validate: {
+      isAsync: true,
+      validator: async function (value) {
+        const self = this;
+        const query = { email: toLower(value) };
+        const exist = await verifyIfFieldAlreadExist(query, self, this.constructor);
+        return !exist;
+      },
+      message: 'esse E-mail já está em uso.'
+    }
   },
   password: {
     type: String,
@@ -47,25 +57,24 @@ const InstanceSchema = new Schema({
     timestamps: true
   });
 
+/*
 InstanceSchema
-  .path('email')
-  .validate(async function (value) {
-    const self = this;
-    const query = { email: toLower(value) };
-    return verifyIfFieldAlreadExist(query);
-  }, 'esse E-mail já está em uso.');
-
+.path('email')
+.validate();
+*/
+/*
 InstanceSchema
   .path('username')
-  .validate(function (value) {
+  .validate(async function (value) {
     var self = this;
     const query = { username: toLower(value) };
-    return verifyIfFieldAlreadExist(query);
+    const exist = await verifyIfFieldAlreadExist(query, self, this.constructor);
+    return exist;
   }, 'esse usuário já está em uso.');
-
+*/
 
 InstanceSchema
-  .pre('save', function (next) {
+  .pre('save', async function (next) {
     var user = this;
     if (!user.isModified('password')) return next();
     try {
@@ -75,9 +84,7 @@ InstanceSchema
     }
   })
   .pre('findOneAndUpdate', async function (next) {
-
     const user = this;
-
     if (user.getUpdate().password) {
       try {
         const findedUser = await user.findOne({ _id: user.getUpdate()._id });
@@ -91,7 +98,6 @@ InstanceSchema
     } else {
       next()
     }
-
   });
 
 InstanceSchema.methods.comparePassword = async function (candidatePassword) {
@@ -100,37 +106,31 @@ InstanceSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 async function generateHash(password) {
-
   return new Promise((resolve, reject) => {
-
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-
       if (err) reject(err);
-
       bcrypt.hash(password, salt, function (err, hash) {
-
         if (err) reject(err);
-
         resolve(hash);
-
       })
     })
-
   })
 };
 
-async function verifyIfFieldAlreadExist(query, self) {
-  let exist = false;
-
-  const findedUser = await this.constructor.findOne(query);
-  if (findedUser) {
-    if (self._id === findedUser._id) {
-      exist = true;
-    } else {
-      exist = false;
+async function verifyIfFieldAlreadExist(query, self, constructor) {
+  try {
+    let exist = false;
+    const user = await constructor.findOne(query);
+    if (user) {
+      if (user._id === self._id) {
+        exist = true;
+      }
     }
+    return exist;
+  } catch (exception) {
+    console.log('exception : ', exception);
+    throw new Error(exception);
   }
-  return exist;
 }
 
 export default mongoose.model('account', InstanceSchema);

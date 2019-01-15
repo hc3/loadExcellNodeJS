@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/babel-node --presets es2015 app.js",
     "start-dev": "nodemon --exec babel-node app.js",
-    "test": "mocha --timeout 1000000 --inspect --opts src/modules/tdd/mocha.opts src/modules/tdd/**.js",
+    "test": "mocha --timeout 1000000 --inspect --opts src/modules/tdd/mocha.opts src/modules/tdd/data/**.js",
     "test-import-products": "mocha --timeout 1000000 --inspect --opts src/modules/tdd/mocha.opts src/modules/tdd/importSellsTest.js"
   },
   "author": "",

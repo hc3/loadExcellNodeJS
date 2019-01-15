@@ -1,4 +1,4 @@
-/*
+
 describe(" Rotina [ ImportSells ] completa de testes", () => {
 
     before( done => {
@@ -6,6 +6,7 @@ describe(" Rotina [ ImportSells ] completa de testes", () => {
         done();
     })
 
+    /*
     describe('Importa CSV', () => {
         it('Importa pedidos.csv', done => {
             Server
@@ -18,7 +19,7 @@ describe(" Rotina [ ImportSells ] completa de testes", () => {
                 })
         })
     })
+    */
 
 
 })
-*/
